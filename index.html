@@ -1,12 +1,17 @@
 <!doctype html>
 <html lang="vi">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Mây Travel — Trợ lý hành trình</title><link rel="stylesheet" href="style.css"><script src="script.js" defer></script></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Mây Travel — LAB5 T3</title><link rel="stylesheet" href="style.css"><script src="booking.js" defer></script><script src="script.js" defer></script></head>
 <body>
-<header><a class="brand" href="index.html"><span class="brand-icon">✦</span> mây<span>travel</span></a><span class="demo-badge">LAB5 · Dữ liệu mô phỏng</span></header>
-<div class="layout"><aside><div class="eyebrow">KHÔNG GIAN HÀNH TRÌNH</div><h1>Đi an tâm.<br>Đổi chủ động.</h1><p>Mọi thay đổi đều bắt đầu từ thông tin rõ ràng và quyết định của bạn.</p><nav aria-label="Chức năng"><button data-view="search" class="nav active">01 <span>Tìm chuyến bay</span> ↗</button><button data-view="refund" class="nav">02 <span>Hoàn vé · K3</span> ↗</button><button data-view="change" class="nav">03 <span>Đổi chuyến · K5</span> ↗</button></nav><div class="side-note"><span>✧</span><strong>Bạn luôn là người quyết định</strong><p>Tra cứu tự động. Đổi hoặc hoàn chỉ thực hiện sau khi đủ điều kiện và được xác nhận.</p></div></aside>
-<main><div class="topline"><span>VÉ CỦA BẠN / <b>MT1622</b></span><span class="status">● Đang có hiệu lực</span></div><section class="ticket"><div><span class="eyebrow">HÀNH TRÌNH HIỆN TẠI</span><div class="route">SGN <span>── ✈ ──</span> DAD</div><p>TP. Hồ Chí Minh <span>→</span> Đà Nẵng</p></div><div class="ticket-detail"><strong>08:00 – 09:20</strong><span>21/11/2026 · MT201</span><span>Nguyễn Minh An · Phổ thông Flex</span></div></section>
+<header><a class="brand" href="index.html"><span class="brand-icon">✦</span> mây<span>travel</span></a><span class="demo-badge">LAB5 · Dữ liệu dựng T3</span></header>
+<div class="layout"><aside><div class="eyebrow">TRỢ LÝ AI · MÔ PHỎNG</div><h1>Đi an tâm.<br>Đổi chủ động.</h1><p>Chuyến bị hủy. Bạn kiểm tra và xác nhận trước mọi thay đổi.</p>
+<nav aria-label="Chức năng"><button data-view="change" class="nav active">01 <span>Đổi chuyến · K5</span> ↗</button><button data-view="refund" class="nav">02 <span>Hoàn vé · K3</span> ↗</button></nav>
+<div class="side-note"><span>✧</span><strong>Bạn luôn là người quyết định</strong><p>Tra cứu và giữ chỗ có điều kiện. Đổi/hoàn cần bạn xác nhận. Không tự tách trẻ nhỏ khỏi người lớn.</p></div></aside>
+<main><div class="topline"><span>ĐẶT CHỖ / <b>TRV-7Q2K</b></span><span class="status" role="status"></span></div>
+<section class="ticket"><div><span class="eyebrow">HÀ NỘI → TP.HCM</span><div class="route">HAN <span>── ✈ ──</span> SGN</div><p>Phổ thông Tiết kiệm · Bay Mẫu</p></div><div class="ticket-detail" id="ticket-detail"></div></section>
+<p class="small">Nguyễn Minh An (34 tuổi) · Nguyễn Gia Bình (5 tuổi). Các thao tác trong demo áp dụng cho cả hai hành khách.</p>
 <section id="workspace" aria-labelledby="view-title"></section>
 <section class="activity"><div class="eyebrow">NHẬT KÝ PHIÊN DEMO</div><ol id="log"><li>Chưa có thao tác thay đổi vé.</li></ol></section>
-<details class="controls"><summary>Điều khiển demo · dành cho người thuyết trình</summary><p>Dùng các tình huống này để kiểm tra chốt thực thi. Không có yêu cầu nào được gửi đến hãng bay.</p><button id="uncertain" class="secondary">K3: giả lập kết quả gửi chưa rõ</button><button id="reset" class="secondary">Đặt lại toàn bộ demo</button></details>
-<footer>Nguồn: bộ dữ liệu mẫu LAB5 do nhóm thiết kế, chưa đối chiếu fixture Track 3. Không gọi AI, không thanh toán, không đổi/hoàn vé thật.</footer></main></div>
+<details class="controls"><summary>Điều khiển demo · dành cho người thuyết trình</summary><p>Thời điểm dữ liệu: 15:00 ngày 12/11/2026. Đếm giữ chỗ chạy theo thời gian phiên; không phải chuyến đang bán thực tế. Mốc hỗ trợ 5/15 phút là mục tiêu nhóm đề xuất, không phải cam kết.</p>
+<button id="uncertain" class="secondary">K3: gửi trước xác nhận, kết quả chưa rõ</button><button id="expire" class="secondary">Giả lập hết 20 phút giữ chỗ</button><button id="receive" class="secondary">Giả lập nhân viên nhận hồ sơ</button><button id="reset" class="secondary">Đặt lại demo</button></details>
+<footer>Dữ liệu dựng từ <a href="https://github.com/VinUni-AI20k/K5-L3-Day05-AI-Product-UX-Autonomy/blob/main/tracks/t3-travel.md" target="_blank" rel="noopener">đề T3</a>. Không có AI, giao dịch, gửi thông báo hay nhân viên thật. Tải lại trang sẽ đặt lại toàn bộ demo.</footer></main></div>
 </body></html>
