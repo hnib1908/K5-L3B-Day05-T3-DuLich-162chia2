@@ -39,13 +39,40 @@ Bốn lớp: ① Nguồn sự thật · ② Mơ hồ · ③ Thẩm quyền · �
 
 **Giới hạn:** Đây là lựa chọn dựa trên ví dụ của đề, chưa xác minh bằng fixture. K2/K6 cũng có thể gây mất tiền, K4 có thể làm lỡ chuyến; không mặc định các ca này nhẹ. Khi có track, so lại mức thiệt hại, khả năng khôi phục và phạm vi ảnh hưởng để chốt thứ tự.
 
-## §3. Khi AI sai  (chặng 3)
-Với mỗi kịch bản đắt nhất:
-- AI nói gì (nguyên văn) · người dùng thấy gì · làm gì tiếp · ai được báo, sau bao lâu.
-- Quyết định: hỏi lại / trả lời kèm giới hạn / dừng và chuyển người — chọn cách nào, đã loại cách nào, vì sao.
-- Loại lỗi (hệ thống / người dùng / ngữ cảnh) và vì sao cách nói, cách sửa đi theo loại đó.
-- 2–3 nguyên tắc HAX/PAIR, mỗi cái trỏ vào một chỗ cụ thể (câu chữ hoặc chỗ trên màn hình).
-- Lỗi nào sửa câu chữ không cứu được (nếu có), và thiết kế cứu nó thế nào.
+## §3. Khi AI sai (chặng 3)
+
+Phần này tiếp tục hai ca K3 và K5 đã chọn ở §2. Lời thoại và màn hình là thiết kế đề xuất, chưa phải hành vi của prototype đã chạy. Chưa có file track nên chưa khẳng định tool có thể hoàn tác, tra trạng thái hoặc khôi phục quyền lợi. Các mốc thời gian dưới đây là mục tiêu vận hành để thử nghiệm, cần xác nhận năng lực hỗ trợ trước khi cam kết với khách.
+
+### K3 — Đã gửi yêu cầu hoàn khi khách chưa xác nhận hậu quả
+
+**Tình huống lỗi:** Khách nói “Hoàn vé ngay đi”; hệ thống đã gửi yêu cầu nhưng chưa trình bày khoản khấu trừ và lấy xác nhận giao dịch cụ thể. Khi phát hiện, hệ thống phải phân biệt yêu cầu đã được tiếp nhận với vé đã hoàn; không suy ra trạng thái từ việc gọi tool.
+
+**AI nói gì — nguyên văn khi đã xác minh yêu cầu được tiếp nhận:**
+
+> “Xin lỗi, hệ thống đã gửi yêu cầu hoàn vé trước khi bạn xác nhận số tiền nhận lại và khoản khấu trừ. Yêu cầu đã được tiếp nhận; điều này chưa xác nhận vé đã hoàn hoặc tiền đã được trả. Tôi chưa xác minh được khả năng rút yêu cầu. Tôi sẽ không gửi thêm yêu cầu hoàn. Bạn có thể chọn ‘Nhờ hỗ trợ kiểm tra’ để chuyển ca này cho nhân viên.”
+
+Nếu chưa xác minh được kết quả gửi, thay câu về tiếp nhận bằng: **“Tôi chưa xác minh được yêu cầu hoàn đã được tiếp nhận hay chưa.”** Chỉ đổi thông báo sang “đã chuyển hỗ trợ” khi hệ thống thực sự ghi nhận chuyển thành công.
+
+**Người dùng thấy gì:** Thẻ cảnh báo gắn đúng vé/hành khách; trạng thái lấy từ nguồn giao dịch, thời điểm kiểm tra gần nhất và mã yêu cầu nếu có. Hiển thị riêng trạng thái yêu cầu, trạng thái vé và trạng thái tiền hoàn. Khoản tiền chưa xác minh ghi “Chưa xác minh”, không tự điền số. Nút “Hoàn vé” bị khóa khi đang kiểm tra yêu cầu cũ; có nút “Nhờ hỗ trợ kiểm tra”. Không hiện nút “Hoàn tác” nếu chưa có cơ chế thực hiện thật.
+
+**Làm gì tiếp; ai được báo, sau bao lâu:**
+
+1. Ngay khi phát hiện, ngăn yêu cầu hoàn trùng cho cùng giao dịch; kiểm tra trạng thái bằng chức năng đọc nếu track có. Nếu không có, giữ trạng thái chưa xác minh và chuyển kiểm tra thủ công.
+2. Tạo cảnh báo nội bộ ngay cho nhân viên xử lý vé/hoàn tiền qua cơ chế đã được triển khai. Khi khách chọn chuyển hỗ trợ, đính kèm vé liên quan, thời điểm gửi, kết quả tool, bước xác nhận bị thiếu và thông tin tiền đã xác minh. Prototype chỉ mô phỏng việc này nếu chưa có kết nối.
+3. Mục tiêu: nhân viên tiếp nhận trong 5 phút; sau 15 phút chưa có người nhận thì chuyển trưởng ca. Màn hình cập nhật tình trạng tiếp nhận; không hứa hoàn tiền hoặc khôi phục vé trong các mốc này. Nếu không kết nối được hỗ trợ, báo rõ chuyển chưa thành công và đưa kênh liên hệ thực tế đã được cấu hình.
+4. Nhân viên kiểm tra còn rút yêu cầu được không, chi phí và tác động hành trình; trình phương án để khách quyết định. Không tự mua vé khác hoặc tạo giao dịch bù trừ.
+
+**Quyết định:** Chọn **dừng thao tác ghi và chuyển người** vì giao dịch có thể đã ảnh hưởng vé/tiền. Loại “chỉ hỏi lại” vì xác nhận sau không sửa được việc đã gửi trước. Loại “chỉ trả lời kèm giới hạn rồi tiếp tục” vì lời cảnh báo không giải quyết được trạng thái giao dịch. Nếu lỗi được phát hiện trước khi gửi, quay về màn hình tiền hoàn và lấy xác nhận; không cần xử lý như một giao dịch đã xảy ra.
+
+**Loại lỗi:** Lỗi **hệ thống**: thiếu chốt xác nhận và/hoặc điều phối tool sai. Câu “hoàn ngay” của khách không phải nguyên nhân để đổ lỗi cho khách. Vì vậy lời thoại nhận trách nhiệm, phân biệt trạng thái đã biết/chưa biết; cách sửa tập trung vào chặn gửi trùng, đối soát và phục hồi bằng nghiệp vụ thật.
+
+**Áp dụng HAX:**
+
+- [G9 — Support efficient correction](https://www.microsoft.com/en-us/haxtoolkit/guideline/support-efficient-correction/): nút “Nhờ hỗ trợ kiểm tra” giữ nguyên hồ sơ giao dịch để khách không phải kể lại. Chỉ cung cấp thao tác rút yêu cầu khi nghiệp vụ thực sự hỗ trợ.
+- [G10 — Scope services when in doubt](https://www.microsoft.com/en-us/haxtoolkit/guideline/scope-services-when-in-doubt/): khi kết quả gửi chưa rõ, khóa gửi tiếp và giới hạn hệ thống ở kiểm tra trạng thái/chuyển hỗ trợ.
+- [G11 — Make clear why the system did what it did](https://www.microsoft.com/en-us/haxtoolkit/guideline/make-clear-why-the-system-did-what-it-did/): cạnh nút bị khóa ghi “Đang kiểm tra yêu cầu trước để tránh gửi trùng”; hiển thị trạng thái và thời điểm kiểm tra làm căn cứ.
+
+**Câu chữ không cứu được gì; thiết kế cần làm gì:** Xin lỗi không lấy lại chỗ hoặc tiền đã mất. Cần tách bước báo giá và thực thi, ràng buộc xác nhận vào đúng vé/số tiền/điều kiện còn hiệu lực ở phía thực thi, chống thực hiện trùng và lưu dấu vết giao dịch. Khi kết quả không rõ, kiểm tra trước khi thử lại. Khôi phục chỉ được thực hiện khi chính sách và tool cho phép; không hứa “hoàn tác” vô điều kiện.
 
 ## §4. Mức tự chủ  (chặng 4)
 Với mỗi tool:
