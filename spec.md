@@ -8,8 +8,8 @@ Phần việc cần được hai thành viên xác nhận theo đóng góp thự
 
 | Họ và Tên | Mã Học Viên | Việc đã làm |
 |---|---|---|
-| Vũ Văn Bình |2A202603831  |  |
-| Đỗ Thanh Mai | 2A202603862 |  |
+| Vũ Văn Bình |2A202603831  | Tổng hợp spec.md; xây dựng và phân tích các kịch bản rủi ro, tập trung K3 và K5; thiết kế câu trả lời khi AI sai và mức tự chủ cho các tool; sử dụng Codex hỗ trợ chỉnh sửa prototype và rà soát nội dung. |
+| Đỗ Thanh Mai | 2A202603862 | Cùng thảo luận kịch bản rủi ro và mức tự chủ; rà soát câu chữ, cảnh báo và bước xác nhận trên giao diện; chạy thử luồng đổi/hoàn vé, chụp ảnh minh chứng K3/K5; chuẩn bị và trình bày demo. |
 
 
 ## §1. Lát cắt & phạm vi
